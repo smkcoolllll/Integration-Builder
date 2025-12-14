@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: AI-Generated-Integration-Builder
+
+  datasource:
+    url: jdbc:h2:mem:cloudeagle_db
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sammy
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    time-zone: UTC
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: on_param
+    include-binding-errors: always
+
+logging:
+  level:
+    root: INFO
+    com.cloudEagle.integration: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+app:
+  api:
+    version: v1
+    base-path: /api/v1/integration
+
+  http:
+    client:
+      timeout: 10000
+      max-retries: 3
+      retry-delay: 1000
+
+  security:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      allow-credentials: false
